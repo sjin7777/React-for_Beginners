@@ -5,6 +5,7 @@
 /* 버튼을 몇번 클릭했는지 세는 어플 만들기 */
 
 // Vanilla JS
+// 01.vanilla.html
 if(true) {
     //  - 이 과정에서 React JS로 개선할 수 있는 점들 확인해보기
 
@@ -55,8 +56,9 @@ if(true) {
 }
 
 // React JS로 만들어보기 전 준비
+// 02.react_old.html
 if(true) {
-    // 1. react.html 파일 생성
+    // 1. 02.react_old.html 파일 생성
     
     // 2. React 설치 및 확인
     //  - 두 개의 JavaScript 코드 import 하기
@@ -81,6 +83,7 @@ if(true) {
 //  - HTML을 html 파일에 직접 작성하지 않고 JavaScript와 React JS를 이용하여 element를 생성한다
 
 /* React JS로 버튼을 몇번 클릭했는지 세는 어플 만들기 (잘 사용하지 않는 방법) - 1 */
+// 02.react_old.html
 if(true) {
     // 1. React JS로 클릭 횟수를 알 수 있는 span element 생성
     //  - React를 import 했기 때문에 createElement function을 가진 React object에 접근할 수 있음
@@ -124,6 +127,7 @@ if(true) {
 
 ///* 2.3 - Events in React */
 /* React JS로 버튼을 몇번 클릭했는지 세는 어플 만들기 (잘 사용하지 않는 방법) - 2 */
+// 02.react_old.html
 if(true) {
     // 1. 클릭할 버튼 생성하기
     //      => const btn = React.createElement('button', null, 'Click me');
@@ -181,6 +185,7 @@ if(true) {
 
 
 ///* 2.4 - Recap */
+// 02.react_old.html
 if(true) {
     // 1. React JS와 ReactDOM 코드를 import
     //  - React JS는 element를 생성하고, event listener를 더하는 것을 도와줌 (interactive power!)
@@ -223,6 +228,7 @@ if(true) {
 //  - React 요소를 만들어 줌
 //  - HTML에서 사용한 문법과 흡사한 문법을 사용하기 때문에 편함
 
+// 03.react_new.html
 if(true) {
     // 1. 브라우저가 JSX를 이해할 수 있도록 하지 않으면 에러남
     //  - JSX로 작성한 코드를 react_old.html에 작성된 코드처럼 변환시켜야 함
@@ -295,6 +301,7 @@ if(true) {
 ///* 2.6 - JSX part Two */
 /* 아직 JSX로 변환하지 않은 코드들을 JSX를 사용해서 마저 변환하기 */
 
+// 03.react_new.html
 if(true) {
     // 변환할 코드
     /* 

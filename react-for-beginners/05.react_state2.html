@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- type="text/babel" 작성하지 않으면 오류남 -->
+    <!-- 브라우저가 JSX를 온전히 이해하지 못하므로 이해할 수 있도록 https://unpkg.com/@babel/standalone/babel.min.js 를 설치해야 함 -->
+    <!-- 이는 JSX로 적은 코드를 브라우저가 이해할 수 있는 형태로 바꾸어주며, babel을 가져온 뒤 script 태그의 type을 'text/babel'로 적어줘야 인식함 -->
+    <script type="text/babel">
+        const root = document.querySelector('#root');
+
+        function App() {
+            const [counter, modifier] = React.useState(0);
+            const onClick = () => {
+                modifier(counter + 1);
+            }
+
+            return (
+                <div>
+                    <h3>Total clicks: {counter}</h3>
+                    <button onClick={onClick}>Click me!</button>
+                </div>
+            );
+        } 
+            
+        ReactDOM.render(<App />, root); 
+    </script>
+</html>
+
+
