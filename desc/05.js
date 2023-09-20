@@ -93,7 +93,7 @@ if(true) {
                 function App() {
                     return (
                         <div>
-                        <h1>Welcome back!</h1>
+                            <h1>Welcome back!</h1>
                         </div>
                     );
                 }
@@ -114,6 +114,7 @@ if(true) {
 
 ///* 5.1 - TOUR OF CRA */
 /* CRA 사용하여 Component 생성, props 생성, PropTypes 확인 */
+// App05.js
 if(true) {
     //  1. Button.js 파일 생성 및 작성
     //      - react-for-beginners > src > 'Button.js'
@@ -128,7 +129,7 @@ if(true) {
             export default Button;
         */
     
-    //  2. App.js에 Button.js를 가져오기 위해 import
+    //  2. App05.js에 Button.js를 가져오기 위해 import
     //          => import Button from "./Button";
     //      - 이떄 Terminal을 보면 Button을 사용하지 않았다고 에러떠있는데, 이건 cra가 도와주는거임
     //       Button을 import까지 했지만, 사용하지 않았기때문에 발생하는 에러
@@ -139,7 +140,7 @@ if(true) {
         /*  
             import Button from "./Button";
 
-            function App() {
+            function App05() {
                 return (
                     <div>
                         <h1>Welcome back!!</h1>
@@ -148,7 +149,7 @@ if(true) {
                 );
             }
 
-            export default App;
+            export default App05;
         */
 
     //  4. Button의 prop으로 text를 전달
@@ -202,16 +203,16 @@ if(true) {
 
     //  11. 애플리케이션을 위한 또다른 CSS module 만들기
     //      11-1. src 폴더에 'App.module.css' 파일 생성
-    //      11-2. App.js에서 style 입힐 코드
+    //      11-2. App05.js에서 style 입힐 코드
     //          => <h1>Welcome back!!</h1>
-    //      11-3. App.js에 있는 코드를 위한 class 이름을 title로 정하고, App.module.css 파일에 작성
+    //      11-3. App05.js에 있는 코드를 위한 class 이름을 title로 정하고, App.module.css 파일에 작성
                 /*  
                     .title {
                         font-family:  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                         font-size: 18px;
                     }
                 */
-    //      11-4. App.js에 App.module.css 파일 import
+    //      11-4. App05.js에 App.module.css 파일 import
     //          - h1 태그에 style을 넣고싶을 때 className prop 추가하기
     //              => <h1 className={styles.title}>Welcome back!!</h1>
     //      11-5. 개발자도구로 className확인
