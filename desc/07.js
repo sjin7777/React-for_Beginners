@@ -701,3 +701,1022 @@ if(true) {
         */
 
 }
+
+
+
+
+
+
+///* 7.3 - Movie App part One */
+/* 영화 앱 프로젝트 */
+// 페이지에 영화 보여주기
+//  1. 영화들을 다 보여주기 (영화 정보 API 필요)
+//  2. 별점이 9 이상의 연도별로 정렬하여 최신 영화부터 보여줌
+// App07_05.js
+if(true) {
+    //  1. 시작
+    //      - index.js
+        /*
+            import React from 'react';
+            import ReactDOM from 'react-dom/client';
+            // import App05 from './App05';
+            // import App0601 from './App06_01';
+            // import App0602 from './App06_02';
+            // import App0603 from './App06_03';
+            // import App0701 from './App07_01';
+            // import App0702 from './App07_02';
+            // import App0703 from './App07_03';
+            // import App0704 from './App07_04';
+            import App0705 from './App07_05';
+
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(
+                // <App05 />
+                // <App0601 />
+                // <App0602 />
+                // <App0603 />
+                // <App0701 />
+                // <App0702 />
+                // <App0703 />
+                // <App0704 />
+                <App0705 />
+            );
+
+        */
+    //      - App07_05.js
+        /*
+            function App0705() {
+                return (
+                    <div></div>
+                )
+            }
+
+            export default App0705;
+        */
+
+    //  2. 로딩 중일때, 'Loading' 글자 보여주고, 로딩이 끝나면 영화목록 보여줌
+    //      2-1. useState import
+    //              => import { useState } from "react";
+    //      2-2. 로딩 관련 useState 생성
+    //          - 기본값으로는 true
+    //              => const [loading, setLoading] = useState(true);
+
+    //      - useState()에 있는 data를 수정하는 함수가 실행되면 Component가 다시 render하는 것을 잊지 말기
+
+    //      2-3. loadng이면 'Loading' 글자 보여주고, loding이 끝나면 영화들을 리턴해야하는데 아직 안짰기 때문에 일단은 null로 지정하기
+    //              => {loading ? <h1>Loading....</h1> : null}
+
+    //  3. Component가 시작할 때 딱 한번만 코드 실행하기 (여기서는 딱 한번 API 호출하기)
+    //      3-1. useEffect import
+    //              => import { useState, useEffect } from "react";
+    //      3-2. useEffect 사용 (딱 한 번이므로 두번째 값은 빈 배열로 설정)
+    //              => useEffect({}, []);
+    //      3-3. useEffect 첫번째 값에 fetch를 사용하여 영화 API 호출하기
+    //          - https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year
+    //          - then을 이용하여 response를 받아오고, response에서 json파일을 얻음
+    //          - 얻은 json 파일을 콘솔로그로 찍어보기
+            /*
+                useEffect(() => {
+                    fetch('https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year')
+                        .then(response => response.json())
+                        .then(json => console.log(json));
+                }, []);
+            */
+
+    //              => 아직 state를 변경해주지를 않아서 화면은 바뀌지 않았지만 Object로 받아와서 console.log에 찍힘
+
+    //  4. movie 관련 useState 생성 및 값 설정
+    //      4-1. movie 관련 useState 생성
+    //          - 기본값으로는 빈 배열 []
+    //              => const [movies, setMovies] = useState([]);
+    //      4-2. 3번에서 fetch로 가져온 json파일의 Object 안에 있는 data.movies를 movies의 state로 설정
+    //      4-3. console.log(movies)를 찍어서 확인  => 로딩이 끝나면 모든 데이터를 가져와서 콘솔로그에 찍힘
+            /*
+                useEffect(() => {
+                    fetch('https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year')
+                        .then(response => response.json())
+                        .then(json => setMovies(json.data.movies));
+                }, []);
+                console.log(movies);
+            */
+    
+    //  5. 로딩이 끝났기 때문에 setLoading을 false로 설정해야함
+            /*
+                useEffect(() => {
+                    fetch('https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year')
+                        .then(response => response.json())
+                        .then(json => {
+                            setMovies(json.data.movies)
+                            setLoading(false);
+                        });
+                }, []);
+            */
+
+    //  6. 3번에서 then을 이용하였는데, 요즘에는 then 대신 async-await를 사용함. 그에 맞게 변경해보기
+    //      6-1. async 함수인 getMovies 함수 생성
+    //              => const getMovies = async() => {};
+    //      6-2. useEffect를 이용해서 getMovies를 호출
+    //              => useEffect(() => {getMovies()}, []);
+    //      6-3 getMovies 함수 내용은 await를 이용하여 작성
+                /*
+                    const getMovies = async() => {
+                        const response = await fetch(
+                            'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                        );
+                        const json = await response.json();
+                        setMovies(json.data.movies);
+                        setLoading(false);
+                    };
+
+                    useEffect(() => {
+                        getMovies()
+                    }, []);
+                */
+    //      6-4. 더 간단하게 변경
+                /*
+                    const getMovies = async() => {
+                        const json = await (
+                            await fetch(
+                                'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                            )
+                        ).json();
+
+                        setMovies(json.data.movies);
+                        setLoading(false);
+                    };
+
+                    useEffect(() => {
+                        getMovies()
+                    }, []);
+                */
+
+    //  7. movies를 화면에 보이도록 하기 (영화 포스터 이미지 중간사이즈, 영화 제목, 영화 장르, 영화 요약)
+    //      - map(arg)에서 arg함수의 첫번째 인자는 각각의 영화 정보에 대한 배열이고, 두번째 인자는 index임
+    //      - 대체로 key를 index로 사용하고, 여기서도 사용해도 되지만, 각각의 영화들마다 id가 있으므로 index는 가져올 필요없음
+    //      - 영화 장르의 경우에는 배열이므로 다시한번 map을 이용하여 가져오기 (이 경우 key로 index를 사용해도 됨 아니면 장르 이름 그대로 사용)
+    //      - map을 이용할 경우 key를 줘야한다는 것을 잊지말기
+    //      - img 태그의 경우에는 모든 element들은 alt 속성을 가지기 때문에 alt에 값을 안 넣어주면 이상이 있다고 표시됨. alt 값에 movie.title 넣어주기
+
+                /*
+                    import { useState, useEffect } from "react";
+
+                    function App0705() {
+                        const [loading, setLoading] = useState(true);
+                        const [movies, setMovies] = useState([]);
+
+                        const getMovies = async() => {
+                            const json = await (
+                                await fetch(
+                                    'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                                )
+                            ).json();
+
+                            setMovies(json.data.movies);
+                            setLoading(false);
+                        };
+
+                        useEffect(() => {
+                            getMovies()
+                        }, []);
+
+
+                        return (
+                            <div>
+                                {loading ? (
+                                    <h1>Loading....</h1>
+                                    ) : (
+                                    <div>
+                                        {movies.map((movie) => (
+                                            <div key={movie.id}>
+                                                <img src={movie.medium_cover_image} alt={movie.title} />
+                                                <h2>{movie.title}</h2>
+                                                <p>{movie.summary}</p>
+                                                <ul>
+                                                    {movie.genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )
+                    }
+
+                    export default App0705;
+                */
+
+
+    //  정리
+    //  1. API로부터 받아온 data를 state로 설정하여 보여주는 것 뿐임
+    //  2. loading 중일 때는 로딩 관련 state가 true, 로딩이 끝나면(API가 응답하면) false로 변경 
+    //  3. moviess 관련 state로는 기본값으로 빈 배열 []로 설정하고, movies를 받아오면 API로부터 얻은 data로 state를 변경함
+    //  4. movies.map()을 이용하여 각각의 movie에 접근하여 그 값을 변환할 수 있음
+
+}
+
+
+
+
+
+
+///* 7.4 - Movie App part Two */
+/* 영화 앱 프로젝트 */
+// Movie Component 생성하여 App Component에 추가하여 렌더링하기
+// App07_06.js
+if(true) {
+    //  1. 시작
+    //      - index.js
+        /*
+            import React from 'react';
+            import ReactDOM from 'react-dom/client';
+            // import App05 from './App05';
+            // import App0601 from './App06_01';
+            // import App0602 from './App06_02';
+            // import App0603 from './App06_03';
+            // import App0701 from './App07_01';
+            // import App0702 from './App07_02';
+            // import App0703 from './App07_03';
+            // import App0704 from './App07_04';
+            // import App0705 from './App07_05';
+            import App0706 from './App07_06';
+
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(
+                // <App05 />
+                // <App0601 />
+                // <App0602 />
+                // <App0603 />
+                // <App0701 />
+                // <App0702 />
+                // <App0703 />
+                // <App0704 />
+                // <App0705 />
+                <App0706 />
+            );
+
+        */
+    //      - App07_06.js
+        /*
+            import { useState, useEffect } from "react";
+
+            function App0706() {
+                const [loading, setLoading] = useState(true);
+                const [movies, setMovies] = useState([]);
+
+                const getMovies = async() => {
+                    const json = await (
+                        await fetch(
+                            'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                        )
+                    ).json();
+
+                    setMovies(json.data.movies);
+                    setLoading(false);
+                };
+
+                useEffect(() => {
+                    getMovies()
+                }, []);
+
+
+                return (
+                    <div>
+                        {loading ? (
+                            <h1>Loading....</h1>
+                            ) : (
+                            <div>
+                                {movies.map((movie) => (
+                                    <div key={movie.id}>
+                                        <img src={movie.medium_cover_image} alt={movie.title}/>
+                                        <h2>{movie.title}</h2>
+                                        <p>{movie.summary}</p>
+                                        <ul>
+                                            {movie.genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )
+            }
+
+            export default App0706;
+        */
+    
+    //  2. Movie.js 생성 및 Movie Component 작성
+    //      - App0706 Component에 있는 movie관련 부분을 Movie Component로 옮김
+    //          > App0706 Component에서 옮길 코드
+                    /*
+                        <div key={movie.id}>
+                            <img src={movie.medium_cover_image} />
+                            <h2>{movie.title}</h2>
+                            <p>{movie.summary}</p>
+                            <ul>
+                                {movie.genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                            </ul>
+                        </div>
+                    */
+    //          > Movie Component로 옮긴 후 수정
+    //              - key가 필요 없으므로 삭제
+    //              - movie. 라고 적힌 부분 다 지우기
+    //              - medium_cover_image, title, summary, genres는 아직 정의되어있지 않아서 에러가 뜨고 있음
+    //               이후에 movie가 App07_06.js로부터 정보를 받을 예정
+                    /*
+                        function Movie() {
+                            return (
+                                <div>
+                                    <img src={medium_cover_image} />
+                                    <h2>{title}</h2>
+                                    <p>{summary}</p>
+                                    <ul>
+                                        {genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                                    </ul>
+                                </div>
+                            );
+                        }
+
+                        export default Movie;
+                    */
+
+    //  3. Movie Component의 인자로 props object를 넣어줌
+    //      - Movie Component가 medium_cover_image, title, summary, genres 들을 parent Componet (App0706)로부터 받아온다고 하는 것
+                /*
+                    function Movie({medium_cover_image, title, summary, genres}) {
+                        return (
+                            <div>
+                                <img src={medium_cover_image} alt={title}/>
+                                <h2>{title}</h2>
+                                <p>{summary}</p>
+                                <ul>
+                                    {genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                                </ul>
+                            </div>
+                        );
+                    }
+
+                    export default Movie;
+                */
+
+    //  4. App0706 Component에서 Movie Component를 렌더링해줌
+    //      4-1. Movie import
+    //          => import Movie from "./Movie";
+    //      4-2. Movie Component 렌더링
+    //          => <div>{movies.map((movie) => (<Movie />))}</div>
+    //      4-3. Movie Component에 property 보내기
+    //          => <div>{movies.map((movie) => (<Movie mediumCoverImage={movie.medium_cover_image} title={movie.title} summary={movie.summary} genres={movie.genres}/>))}</div>
+    //      4-4. 콘솔에 key 필요하다는 경고창 뜨기에 key도 추가함
+    //          - React에서 map을 사용하는 경우 map안에 있는 Component들을 render할 때 key를 사용함
+    //          - key 입력하는 것을 잊지말기!
+    //              => <div>{movies.map((movie) => (<Movie key={movie.id} mediumCoverImage={movie.medium_cover_image} title={movie.title} summary={movie.summary} genres={movie.genres}/>))}</div>
+
+                /*
+                    import { useState, useEffect } from "react";
+                    import Movie from "./Movie";
+
+                    function App0706() {
+                        const [loading, setLoading] = useState(true);
+                        const [movies, setMovies] = useState([]);
+
+                        const getMovies = async() => {
+                            const json = await (
+                                await fetch(
+                                    'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                                )
+                            ).json();
+
+                            setMovies(json.data.movies);
+                            setLoading(false);
+                        };
+
+                        useEffect(() => {
+                            getMovies()
+                        }, []);
+
+
+                        return (
+                            <div>
+                                {loading ? (
+                                    <h1>Loading....</h1>
+                                    ) : (
+                                    <div>
+                                        {movies.map((movie) => (
+                                            <Movie 
+                                                key={movie.id}
+                                                mediumCoverImage={movie.medium_cover_image} 
+                                                title={movie.title} 
+                                                summary={movie.summary} 
+                                                genres={movie.genres}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )
+                    }
+
+                    export default App0706;
+                */
+
+    //  5. Movie.js에 PropTypes 사용
+    //      5-1. PropTypes import
+    //          => import PropTypes from "prop-types";
+    //      5-2. Movie Component의 prop인 mediumCoverImage, title, summary, genres들을 PropTypes 설정
+    //          - mediumCoverImage는 타입이 string이여야 하고, 필수로 있어야 함
+    //          - title은 타입이 string이여야 하고, 필수로 있어야 함
+    //          - summary는 타입이 string이여야 하고, 필수로 있어야 함
+    //          - genres는 string 타입을 가진 array여야 함, 필수로 있어야 함
+                /*
+                    Movie.propTypes = {
+                        mediumCoverImage: PropTypes.string.isRequired,
+                        title: PropTypes.string.isRequired,
+                        summary: PropTypes.string.isRequired,
+                        genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+                    }
+                */
+}
+
+// 앱 안에서 페이지를 전환하는 방법 - React Router 사용
+// App07_07.js
+if(true){
+    //  1. 시작
+    //      - index.js
+            /*
+                import React from 'react';
+                import ReactDOM from 'react-dom/client';
+                // import App05 from './App05';
+                // import App0601 from './App06_01';
+                // import App0602 from './App06_02';
+                // import App0603 from './App06_03';
+                // import App0701 from './App07_01';
+                // import App0702 from './App07_02';
+                // import App0703 from './App07_03';
+                // import App0704 from './App07_04';
+                // import App0705 from './App07_05';
+                // import App0706 from './App07_06';
+                import App0707 from './App07_07';
+
+                const root = ReactDOM.createRoot(document.getElementById('root'));
+                root.render(
+                    // <App05 />
+                    // <App0601 />
+                    // <App0602 />
+                    // <App0603 />
+                    // <App0701 />
+                    // <App0702 />
+                    // <App0703 />
+                    // <App0704 />
+                    // <App0705 />
+                    // <App0706 />
+                    <App0707 />
+                );
+            */
+    //      - App07_07.js
+            /*
+                import { useState, useEffect } from "react";
+                import Movie from "./Movie";
+
+                function App0706() {
+                    const [loading, setLoading] = useState(true);
+                    const [movies, setMovies] = useState([]);
+
+                    const getMovies = async() => {
+                        const json = await (
+                            await fetch(
+                                'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                            )
+                        ).json();
+
+                        setMovies(json.data.movies);
+                        setLoading(false);
+                    };
+
+                    useEffect(() => {
+                        getMovies()
+                    }, []);
+
+
+                    return (
+                        <div>
+                            {loading ? (
+                                <h1>Loading....</h1>
+                                ) : (
+                                <div>
+                                    {movies.map((movie) => (
+                                        <Movie 
+                                            key={movie.id}
+                                            mediumCoverImage={movie.medium_cover_image} 
+                                            title={movie.title} 
+                                            summary={movie.summary} 
+                                            genres={movie.genres}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+
+                export default App0706;
+            */
+    //      - Movie.js
+            /*
+                import PropTypes from "prop-types";
+
+                function Movie({mediumCoverImage, title, summary, genres}) {
+                    return (
+                        <div>
+                            <img src={mediumCoverImage} alt={title}/>
+                            <h2>{title}</h2>
+                            <p>{summary}</p>
+                            <ul>
+                                {genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                            </ul>
+                        </div>
+                    );
+                }
+
+                Movie.propTypes = {
+                    mediumCoverImage: PropTypes.string.isRequired,
+                    title: PropTypes.string.isRequired,
+                    summary: PropTypes.string.isRequired,
+                    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+                }
+
+
+                export default Movie;
+            */
+    
+    //  2. React Router 사용
+    //      - React Router는 페이지를 전환함
+    //      - 현재 페이지는 'http://localhost:3000' 혹은 'http://localhost:3000/?'로 되어있는데, 
+    //       'http://localhost:3000/movies/movie.id'로 했을 경우 해당 영화에 대한 페이지로 이동이 가능하게 하기
+    //      6-1. react-router-dom 설치
+    //              => Terminal > New Terminal > 'npm install react-router-dom'
+    //          - 내가 만든 프로젝트의 경우에는  'cd react-for-beginners' 로 이동 후 실행하기..ㅎㅎ..ㅜ
+    
+    //  3. 스크린 단위로 생각해야 하므로 코드를 바꾸거나 이동시켜야 함
+    //      - route별로 생각해야 함
+    //      - home route의 경우에는 모든 영화를 보여줌
+    //      - Moves route의 경우(/Moves/)에는 영화 하나만 보여줌
+
+    //  4. route관련 폴더 및 파일
+    //      - src > 'routes' 폴더 생성
+    //      - src > routes > 'components' 폴더 생성
+    //      - src > routes > components에 Movie.js 파일 이동
+    //      - Movie.js의 파일이 이동되었기 때문에 Movie Component를 import하는 파일들도 수정해야함
+    //          => import Movie from "./routes/components/Movie";
+    //      - src > routes > 'Home.js' 파일 생성
+    
+    //  5. 생성한 Home.js 작성
+    //      - Home route는 기본적으로 App Component 전체를 가지고 있어야 함
+    //      - 작성해왔던 App Component 코드를 Home Component로 옮겨야 함.(import 포함)
+    //      - App07_07.js 
+                /*
+                    function App0707() {
+                        return null;
+                    }
+
+                    export default App0707;
+                */
+    //      - Home.js
+                /*
+                    import { useState, useEffect } from "react";
+                    import Movie from "./routes/components/Movie";
+
+                    function Home() {
+                        const [loading, setLoading] = useState(true);
+                        const [movies, setMovies] = useState([]);
+
+                        const getMovies = async() => {
+                            const json = await (
+                                await fetch(
+                                    'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                                )
+                            ).json();
+
+                            setMovies(json.data.movies);
+                            setLoading(false);
+                        };
+
+                        useEffect(() => {
+                            getMovies()
+                        }, []);
+
+
+                        return (
+                            <div>
+                                {loading ? (
+                                    <h1>Loading....</h1>
+                                    ) : (
+                                    <div>
+                                        {movies.map((movie) => (
+                                            <Movie 
+                                                key={movie.id}
+                                                mediumCoverImage={movie.medium_cover_image} 
+                                                title={movie.title} 
+                                                summary={movie.summary} 
+                                                genres={movie.genres}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )
+                    }
+
+                    export default Home;
+                */
+
+    //  6. 새로운 route 생성
+    //      - src > rotes > 'Detail.js' 파일 생성 및 작성
+                /*
+                    function Detail() {
+                        return <h1>Detail</h1>;
+                    }
+
+                    export default Detail;
+                */
+
+    //  7. App.js는 더 이상 영화들을 보여주지 않고, router를 render함
+    //      - router: URL을 보고 있는 Component
+    //      - URL이 'http://localhost:3000/'일 경우 Home Component를 보여줌
+    //      - URL이 'http://localhost:3000/movies/{movie.id}' 일 경우 Detail Component를 보여줌
+    //      - 즉, URL에 따라서 Home을 보여주거나 Detail을 보여줄 예정
+}
+
+
+
+
+
+
+///* 7.5 - React Router */
+/* 영화 앱 프로젝트 */
+// react-router-dom 사용법
+// App07_07.js
+if(true) {
+    //  1. 시작
+    //      - App07_07.js
+            /*
+                function App0707() {
+                    return null;
+                }
+
+                export default App0707;
+            */
+
+    //  2. react-router-dom을 사용하기 위해서는 import를 해야 함
+    //      - App07_07.js에 import
+    //      - Router의 종류에는 Hash Router, Browser Router가 있음 (둘 다 해볼 예정)
+    //          => import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+    //  3. App0707.js Component에 Router Component 생성
+    //      - 기존에 만들어져있는 Router Component를 사용하기만 하면 됨
+    //          =>  function App0707() {
+    //                  return <Router></Router>;
+    //              }
+
+    //  4. Router Component 안에 Switch Component 사용
+    //      - Switch Component 또한 기존에 만들어져 있는 Component로 사용하기만 하면 됨
+    //      - Switch Component는 Route를 찾는 Component로, URL을 의미하며 Route를 찾으면 Component를 렌더링함 
+    //          => return <Router><Switch></Switch></Router>;
+
+    //  5. Switch Component가 버전 6부터 Routes Component로 변경되었으니 다 바꿔주기
+    //              => import { BrowserRouter, Routes, Route } from "react-router-dom";
+    //              => return <Router><Routes></Routes></Router>;
+    //      5-1. 기존에는 Switch Component 안에 Route Component들을 넣고 그 안에 필요한 Component를 넣어서 사용했지만, 
+    //          바뀐 Routes Component는 안에 Route Component를 넣지 않고, element prop에 바로 필요한 Component들을 할당하도록 바뀌었음
+    //              => import { BrowserRouter, Routes, router } from "react-router-dom";
+
+    //  6. Route 설정
+    //      6-1. 홈화면으로 갈 때 사용하는 Route
+    //          - 경로는 "/"
+    //          - Home Component를 보여줌
+    //              => <Route path="/" element={<Home/>}/>
+    //          - 기존에 만들었던 Home Component를 사용하기 위해 Home.js를 import 하기
+    //              => import Home from "./routes/Home";
+    //      6-2. 영화 상세 페이지로 갈 때 사용하는 Route
+    //          - 경로는 "/movie"
+    //          - Detail Component를 보여줌
+    //              => <Route path="/movie" element={<Detail/>}/>
+    //          - 기존에 만들었던 Detail Component를 사용하기 위해 Detail.js를 import 하기
+    //              => import Detail from "./routes/Detail";
+
+        /*
+            import { BrowserRouter, Routes, Route } from "react-router-dom"; 
+            import Home from "./routes/Home";
+            import Detail from "./routes/Detail";
+
+            function App0707() {
+                return (
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="/movie" element={<Detail/>}/>
+                        </Routes>
+                    </BrowserRouter>
+                );
+            }
+
+            export default App0707;
+        */
+
+    //  참고. 가장 최신 방법을 사용할 경우
+        /*
+            import Home from "./routes/Home";   
+            import Detail from "./routes/Detail";
+            import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+            const router = createBrowserRouter ([
+                {
+                    path: "/",
+                    element: <Home />,
+                },
+                {
+                    path: "/movie",
+                    element: <Detail />,
+                },
+            ]);
+
+            function App0707() {
+                return (
+                    <RouterProvider router={router} />
+                );
+            }
+
+            export default App0707;
+        */
+
+
+
+    //  7. Browser Router와 Hash Router 차이
+    //      - URL 생긴게 다름
+    //      - Browser Router: 보통의 웹사이트 URL (http://localhost:3000/)
+    //      - Hash Router: URL 뒤에 무언가를 붙임 (http://localhost:3000/#/)
+    //      - 그렇기에 대부분 Browser Router를 사용
+
+
+
+    //  여기까지 정리
+    //  1. Terminal에 'react-router-dom' 다운로드
+    //      => cd react-for-beginners
+    //      => npm install react-router-dom
+    //  2. 1을 다운로드하면 제공되는 Component 이용하여 
+    //      2-1. BrowserRouter Component: 유저에게 보여주고 싶은 것들을 안에 넣고 먼저 렌더링
+    //      2-2. Routes Component: 한 번에 하나의 Route만 렌더링하기 위해 사용 (이전 버전에서는 Switch Component였음)
+    //      2-3. Route Component: 이동할 URL 경로(path), 사용할 Component(element)를 작성하기 위함 
+    
+
+
+}
+
+// 한 Route에서 다른 Route로 이동하는 방법
+// 유저가 영화 제목 클릭 시 해당 영화의 Detail 페이지로 이동
+// App07_07.js
+if(true) {
+    //  - 단순 HTML 태그인 a태그를 이용하여 페이지를 이동하게 하려면?
+    //      => a 태그 사용 
+    //      => <h2><a href="/movie"/></h2>
+    //  - 그런데, 이동은 되지만 페이지 전체가 다시 실행됨
+    //  - React를 이용하여 재실행되는건 막아보기
+    //      => Link Component 이용
+    //      => Link Component는 브라우저 새로고침 없이도 유저를 다른 페이지로 이동시켜주는 Component
+
+
+    //  2. Movie.js에서 Link Component 사용하기
+    //      2-1. Link import
+    //          => import { Link } from "react-router-dom";
+    //      2-2. 영화 제목 태그 있는 부분에 Link Component 사용하기
+    //          => <h2><Link to="/movie">{title}</Link></h2>
+
+}
+
+
+
+
+
+
+///* 7.6 - Parameters */
+/* 영화 앱 프로젝트 */
+// React Router를 이용하여 동적 URL 만들기
+// 동적 URL: URL에 변수를 넣을 수 있음
+// App07_08.js
+if(true) {
+        //  1. 시작
+    //      - index.js
+            /*
+                import React from 'react';
+                import ReactDOM from 'react-dom/client';
+                // import App05 from './App05';
+                // import App0601 from './App06_01';
+                // import App0602 from './App06_02';
+                // import App0603 from './App06_03';
+                // import App0701 from './App07_01';
+                // import App0702 from './App07_02';
+                // import App0703 from './App07_03';
+                // import App0704 from './App07_04';
+                // import App0705 from './App07_05';
+                // import App0706 from './App07_06';
+                // import App0707 from './App07_07';
+                import App0708 from './App07_08';
+
+                const root = ReactDOM.createRoot(document.getElementById('root'));
+                root.render(
+                    // <App05 />
+                    // <App0601 />
+                    // <App0602 />
+                    // <App0603 />
+                    // <App0701 />
+                    // <App0702 />
+                    // <App0703 />
+                    // <App0704 />
+                    // <App0705 />
+                    // <App0706 />
+                    // <App0707 />
+                    <App0708 />
+                );
+
+            */
+    //      - App07_08.js
+            /*
+                import { BrowserRouter, Routes, Route } from "react-router-dom"; 
+                import Home from "./routes/Home";
+                import Detail from "./routes/Detail";
+
+                function App0707() {
+                    return (
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<Home/>}/>
+                                <Route path="/movie" element={<Detail/>}/>
+                            </Routes>
+                        </BrowserRouter>
+                    );
+                }
+
+                export default App0707;
+            */
+    //      - Movie.js
+            /*
+                import PropTypes from "prop-types";
+                import { Link } from "react-router-dom";
+
+                function Movie({mediumCoverImage, title, summary, genres}) {
+                    return (
+                        <div>
+                            <img src={mediumCoverImage} alt={title}/>
+                            <h2>
+                                <Link to="/movie">{title}</Link>
+                            </h2>
+                            <p>{summary}</p>
+                            <ul>
+                                {genres.map((genre, index) => (<li key={index}>{genre}</li>))}
+                            </ul>
+                        </div>
+                    );
+                }
+
+                Movie.propTypes = {
+                    mediumCoverImage: PropTypes.string.isRequired,
+                    title: PropTypes.string.isRequired,
+                    summary: PropTypes.string.isRequired,
+                    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+                }
+
+
+                export default Movie;                                                               
+            */
+    //      - Home.js
+            /*
+                import { useEffect, useState } from "react";
+                import Movie from "./components/Movie";
+
+                function Home() {
+                    const [loading, setLoading] = useState(true);
+                    const [movies, setMovies] = useState([]);
+
+                    const getMovies = async() => {
+                        const json = await (
+                            await fetch(
+                                'https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year'
+                            )
+                        ).json();
+
+                        setMovies(json.data.movies);
+                        setLoading(false);
+                    };
+
+                    useEffect(() => {
+                        getMovies()
+                    }, []);
+
+
+                    return (
+                        <div>
+                            {loading ? (
+                                <h1>Loading....</h1>
+                                ) : (
+                                <div>
+                                    {movies.map((movie) => (
+                                        <Movie 
+                                            key={movie.id}
+                                            mediumCoverImage={movie.medium_cover_image} 
+                                            title={movie.title} 
+                                            summary={movie.summary} 
+                                            genres={movie.genres}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+
+                export default Home;
+            */
+    //      - Detail.ja
+            /*
+                function Detail() {
+                    return <h1>Detail</h1>;
+                }
+
+                export default Detail;
+            */
+
+    //  1. App0708 Component에서 상세페이지 기존 URL 뒤에 /:id를 적어줌
+    //      => <Route path="/movie/:id" element={<Detail/>}/>
+    
+    //  2. Movie Component에서 유저를 "/movie/변수"의 경로로 보내기
+    //      2-1. Movie Component에 id(movie.id)가 필요한데, props로 받고 있지 않음.  
+    //              => function Movie({mediumCoverImage, title, summary, genres}) {...}
+    //      2-2. Movie Component의 부모 요소인 Home Component에서 move.id를 넘겨주기
+    //          - Home Component는 Movie Component를 렌더링함
+    //              => id={movie.id}
+    //      2-3. Movie Component는 이제 prop으로 id를 받을 수 있음
+    //              => function Movie({id, mediumCoverImage, title, summary, genres}) {...}
+    //      2-4. Movie Component에서 id도 propTypes를 설정함
+    //              => id: PropTypes.number.isRequired,
+    //      2-5. Movie Component에서 Link Component에 있는 링크 수정
+    //              => <Link to={`/movie/${id}`}>{title}</Link>
+    //      2-6. 브라우저에서 영화제목 클릭 시 URL이 /movie/id값 으로 되었는지 확인
+
+    //  3. URL에 나오는 id값을 App Component에서 알고 싶을 경우에 사용
+    //      - 이는 React Router에게 해당 id의 값을 알려달라는 의미
+    //          => <Route path="/movie/:id" element={<Detail/>}/>
+    //      - 콜론 뒤에 있는 변수는 내가 받게 될 변수의 이름이 됨. 즉 useParams()를 이용했을 때 나오는 변수의 이름
+    
+    //  4. Movie Component에서 이동되는 URL에 있는 변수를 React Router에 받을 거라고 말해주면(:변수),
+    //    Detail Component에서 useParams() 함수를 사용하면 React Router가 이 변수의 값을 넘겨줌
+    //      - useParams() 함수를 이용할 때, React Router가 알고 있는 변수명을 중괄호 안에 넣어서 받음
+    //          => const { id } = useParams();     
+    //             console.log(id);         // 53277
+    //             console.log({id});       // {id: '53277'}     
+
+    //  5. useEffect 이용하여 받은 id값을 API에 요청하기
+    //      - fetch를 이용하여 API 호출
+    //      - URL에 id부분을 ${id}로 설정
+    //      - await는 async 함수 내부에 있지 않으면 사용할 수 없으므로, getMovie() 함수 생성하여 async 함수로 만들고, 그 안에 await 코드들을 넣어줌 
+    //          => import { useEffect } from "react";
+                /*
+                    const getMovie = async () => {
+                        const json = await (
+                            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+                        ).json();
+                        console.log(json);
+                    }
+                    
+                    useEffect(() => {
+                        getMovie();
+                    }, []);
+                */
+
+
+    //  - Detail.js
+        /*
+            import { useEffect } from "react";
+            import { useParams } from "react-router-dom";
+
+
+            function Detail() {
+                const { id } = useParams();
+
+                const getMovie = async () => {
+                    const json = await (
+                        await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+                    ).json();
+                    console.log(json);
+                }
+                
+                useEffect(() => {
+                    getMovie();
+                }, []);
+
+                return <h1>Detail</h1>;
+            }
+
+            export default Detail;
+        */
+
+
+}
+
