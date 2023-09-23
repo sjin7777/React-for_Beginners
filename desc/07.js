@@ -1720,3 +1720,159 @@ if(true) {
 
 }
 
+/* 코드 챌린지 - Detail 내용 만들기 */
+//  - Home에서 했던 것처럼 loading을 Detail에 해주기
+//  - movie가 state에 없어서 현재 API에서 json을 받아와서 아무것도 안 하고 있는 상태임
+//      => json을 state 에 넣어서 해보기
+if(true) {
+    //  1. Movie Component, useState import
+    //          => import { useState, useEffect } from "react";
+    //          => import Movie from "./components/Movie";
+    //  2. loading 관련 useState 생성
+    //          => const [loading, setLoading] = useState(true);
+    //  3. movie 관련 useState 생성
+    //          => const [movie, setMovie] = useState([]);
+    //  4. getMovie 함수 안에서 Movie state 변경 함수 설정
+    //          => setMovie(json.data.movie);
+    //  5. getMovie 함수 안에서 loading state 변경 함수 설정
+    //          => setLoading(false);
+    //  6. 마찬가지로, 로딩 중일 때는 'Loading...' 글자 띄우고 로딩이 끝나면 영화정보 띄우기
+    //      - summary 속성이 없는 경우가 있어서 summary 속성을 descriptionFull로 변경했음
+    //      - Home.js, Movie.js에도 적용함
+                /*
+                    return (
+                        <div>
+                            {loading ? (
+                                <h1>Loading....</h1>
+                            ) : (
+                                <Movie
+                                    key={movie.id}
+                                    id={movie.id}
+                                    mediumCoverImage={movie.medium_cover_image} 
+                                    title={movie.title} 
+                                    descriptionFull={movie.description_full} 
+                                    genres={movie.genres}
+                                />
+                            )}
+                        </div>
+                    );
+                */
+    //  7. 끝
+        /*
+            import { useState, useEffect } from "react";
+            import { useParams } from "react-router-dom";
+            import Movie from "./components/Movie";
+
+
+            function Detail() {
+                const { id } = useParams();
+                const [loading, setLoading] = useState(true);
+                const [movie, setMovie] = useState([]);
+
+
+                const getMovie = async () => {
+                    const json = await (
+                        await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+                    ).json();
+                    setMovie(json.data.movie);
+                    setLoading(false);
+                }
+
+                useEffect(() => {
+                    getMovie()
+                }, []);
+
+                return (
+                    <div>
+                        {loading ? (
+                            <h1>Loading....</h1>
+                        ) : (
+                            <Movie
+                                key={movie.id}
+                                id={movie.id}
+                                mediumCoverImage={movie.medium_cover_image} 
+                                title={movie.title} 
+                                descriptionFull={movie.description_full} 
+                                genres={movie.genres}
+                            />
+                        )}
+                    </div>
+                );
+            }
+
+            export default Detail;
+        */
+
+}
+
+
+
+
+
+
+
+///* 7.7 - Publishing */
+/* github pages에 deploy */
+if(true) {
+    //  1. VS Code에서 'gh-pages' 다운로드
+    //      - gh-pages: 결과물을 github pages에 업로드 할 수 있게 해주는 패키지
+    //          => Terminal에서 'npm i gh-pages'
+
+    //  2. package.json에서 "scripts" - "build" 있는지 확인
+    //      - 해당 script를 실행하면 웹 사이트의 production ready code를 생성하게 됨
+    //      - production ready: 코드가 압축되고 모든게 최적화 된다는 의미
+    //          => 'npm run build'
+
+    //  3. 2번이 실행되고나면, 'react-for-beginners' 디렉토리 안에 'build' 폴더가 생성됨
+    //      - static 디렉토리 안에 있는 script들은 지금까지 작성한 코드들을 압축한 것
+    //      - 이는 브라우저가 이해할 수 있는 코드임
+
+    //  4. package.json 파일에 push할 Github에 대한 내용 추가하기
+    //      - 마지막에서 두번째 부분에 추가
+    //      - GitHub에서 먼저 Repository 생성 후 하기
+    //          => ,"homepage" : "https://내깃허브명.github.io/저장할깃허브레포지토리"
+    //          => ,"homepage" : "https://sjin7777.github.io/react-for-beginners/"
+
+    //  5. package.json 파일에 script 생성
+    //      5-1. "scripts" 부분에 추가
+    //              => , "deploy" : "gh-pages -d build"
+    //          - deploy가 하는 일: 설치한 gh-pages를 실행시키고, 'build' 디렉토리를 가져감 
+    //          - 근데 build를 하고 난 다음에 deploy 하는건 귀찮음
+    //      5-2. "scripts" 부분에 또 추가
+    //          - deploy를 실행시키면, predeploy가 자동으로 먼저 실행됨
+    //          - predeploy는 'npm run build'를 실행시킴
+    //              => , "predeploy" : "npm run build" 
+
+    //  6. build 폴더 삭제
+    
+    //  7. deploy 실행
+    //          => 'npm run deploy' 
+    //      - deploy를 실행하면 Node.js가 predeploy(npm run build)를 먼저 실행시킴
+    //      - predeploy는 'npm run build' 이므로 build인 'react-scripts build'를 실행시킴
+    //      - 실행이 끝나면 'gh-pages -d build'가 실행됨
+    //      - 'gh-pages -d build'는 gh-pages가 build 폴더를 4번에서 적어놓았던 웹 사이트에 업로드하도록 함
+
+    //  8. 404에러 뜸
+    //      - github 설정 => public
+    //      - git remote -v 했을 때 아무것도 나오지 않을 경우
+    //          => git remote add origin https://github.com/sjin7777/react-for-beginners.git
+    //      - git remote set-url origin https://github.com/sjin7777/react-for-beginners.git
+    //      - 해당 프로젝트에 있는 .gitignore 파일에 build 파일도 포함되어 있으면 지워주기
+    //      - global user.name 맞는지 확인
+    //          => 'git config --global user.name'
+    //      - index.js 파일 수정 BroswerRouter Component 사용
+    //          => import { BrowserRouter } from 'react-router-dom';
+    //          => <BrowserRouter basename={process.env.PUBLIC_URL}><App0708 /></BrowserRouter>
+    //       - App07_08.js 파일 수정
+    //          => <Route path={`${process.env.PUBLIC_URL}/`} element={<Home />}/>
+    //          => <Route path={`${process.env.PUBLIC_URL}/movie/:id`} element={<Detail/>}/>
+    //       - Movie.js 파일 수정
+    //          => <Link to={`${process.env.PUBLIC_URL}/movie/${id}`}>{title}</Link>
+
+    //  9. 다시 7번 실행하고 해당 URL 들어가서 대기 (주소 CTRL + 클릭)
+    //      - "https://sjin7777.github.io/react-for-beginners"
+    
+
+
+
+}
