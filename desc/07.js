@@ -1816,7 +1816,8 @@ if(true) {
 if(true) {
     //  1. VS Code에서 'gh-pages' 다운로드
     //      - gh-pages: 결과물을 github pages에 업로드 할 수 있게 해주는 패키지
-    //          => Terminal에서 'npm i gh-pages'
+    //          => 'npm install gh-pages'
+    //          => 'npm i gh-pages'
 
     //  2. package.json에서 "scripts" - "build" 있는지 확인
     //      - 해당 script를 실행하면 웹 사이트의 production ready code를 생성하게 됨
@@ -1831,7 +1832,7 @@ if(true) {
     //      - 마지막에서 두번째 부분에 추가
     //      - GitHub에서 먼저 Repository 생성 후 하기
     //          => ,"homepage" : "https://내깃허브명.github.io/저장할깃허브레포지토리"
-    //          => ,"homepage" : "https://sjin7777.github.io/react-for-beginners/"
+    //          => ,"homepage" : "https://sjin7777.github.io/react-test/"
 
     //  5. package.json 파일에 script 생성
     //      5-1. "scripts" 부분에 추가
@@ -1855,22 +1856,20 @@ if(true) {
     //  8. 404에러 뜸
     //      - github 설정 => public
     //      - git remote -v 했을 때 아무것도 나오지 않을 경우
-    //          => git remote add origin https://github.com/sjin7777/react-for-beginners.git
-    //      - git remote set-url origin https://github.com/sjin7777/react-for-beginners.git
+    //          => git remote add origin https://github.com/sjin7777/react-test.git
+    //      - git remote set-url origin https://github.com/sjin7777/react-test.git
     //      - 해당 프로젝트에 있는 .gitignore 파일에 build 파일도 포함되어 있으면 지워주기
     //      - global user.name 맞는지 확인
     //          => 'git config --global user.name'
-    //      - index.js 파일 수정 BroswerRouter Component 사용
-    //          => import { BrowserRouter } from 'react-router-dom';
-    //          => <BrowserRouter basename={process.env.PUBLIC_URL}><App0708 /></BrowserRouter>
     //       - App07_08.js 파일 수정
+    //          => <BrowserRouter basename={process.env.PUBLIC_URL}>...</BrowserRouter>
     //          => <Route path={`${process.env.PUBLIC_URL}/`} element={<Home />}/>
     //          => <Route path={`${process.env.PUBLIC_URL}/movie/:id`} element={<Detail/>}/>
     //       - Movie.js 파일 수정
     //          => <Link to={`${process.env.PUBLIC_URL}/movie/${id}`}>{title}</Link>
 
     //  9. 다시 7번 실행하고 해당 URL 들어가서 대기 (주소 CTRL + 클릭)
-    //      - "https://sjin7777.github.io/react-for-beginners"
+    //      - "https://sjin7777.github.io/react-test"
     
 
 

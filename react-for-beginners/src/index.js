@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 // import App05 from './App05';
 // import App0601 from './App06_01';
 // import App0602 from './App06_02';
@@ -27,7 +26,5 @@ root.render(
     // <App0705 />
     // <App0706 />
     // <App0707 />
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <App0708 />
-    </BrowserRouter>
+    <App0708 />
 );
