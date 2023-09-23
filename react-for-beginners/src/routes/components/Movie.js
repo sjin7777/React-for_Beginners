@@ -8,7 +8,7 @@ function Movie({id, mediumCoverImage, title, descriptionFull, genres}) {
             <h2>
                 <Link to={`${process.env.PUBLIC_URL}/movie/${id}`}>{title}</Link>
             </h2>
-            <p>{descriptionFull}</p>
+            <p>{descriptionFull.length > 235 ? `${descriptionFull.slice(0, 235)}...` : descriptionFull}</p>
             <ul>
                 {genres.map((genre, index) => (<li key={index}>{genre}</li>))}
             </ul>

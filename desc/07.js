@@ -1813,6 +1813,7 @@ if(true) {
 
 ///* 7.7 - Publishing */
 /* github pages에 deploy */
+/* 배포 */
 if(true) {
     //  1. VS Code에서 'gh-pages' 다운로드
     //      - gh-pages: 결과물을 github pages에 업로드 할 수 있게 해주는 패키지
@@ -1872,6 +1873,32 @@ if(true) {
     //      - "https://sjin7777.github.io/react-test"
     
 
-
-
 }
+
+
+
+
+
+
+
+///* 7.8 - Conclusions */
+///* 7.9 - Styles */
+// 배포하고 나서는 브라우저 URL 주소는 여기 'http://localhost:3000/react-test'
+if(true) {
+    //  1. 영화 설명 부분 최대 길이 수정
+    //      - slice() 함수 이용하여 길이 수정
+    //          => <p>{descriptionFull.length > 235 ? `${descriptionFull.slice(0, 235)}...` : descriptionFull}</p>
+
+    // 2. 다 수정한 후에는 배포 해보기
+    //          => npm run deploy
+}
+
+
+
+
+
+///* 7.10 - Next Steps */
+/* Breaking Change */
+//  : 버전이 업데이트 되면서 코드가 깨지는 현상이 발생하고, 그로 인해 코드를 수정해야 하는 경우
+//  - React는 Breaking Change가 없음
+//  - 원하면 옛날 방식을 사용해도 됨 (본질은 변하지 않고, 작성 방식만 다들뿐임)
